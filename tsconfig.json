@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [ "es6" ],
+    "module": "commonjs",
+    "sourceMap": false,
+    "outDir": "./build",
+    "rootDir": "./app",
+    "experimentalDecorators": true
+  },
+  "exclude": [
+    "node_modules",
+    "public",
+    ""
+  ]
+}

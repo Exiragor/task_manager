@@ -1,5 +1,6 @@
 import BaseController from './BaseController';
 import Auth from '../models/Auth';
+import { registrationMiddleware } from '../middlewares'
 
 class AuthController extends BaseController {
 
@@ -25,6 +26,45 @@ class AuthController extends BaseController {
                     error: ''
                 });
 
+            this.response(res, 'json');
+        }
+        catch (err) {
+            console.log(err);
+            throw err;
+        }
+    }
+
+    public async registration(body, res) {
+        try {
+            if (!registrationMiddleware({
+                name: body.name,
+                last_name: body.last_name,
+                password: body.password,
+                email: body.email
+            })) {
+                await this.setFields({
+                    status: false,
+                    error: 'All fields be filled'
+                });
+                this.response(res, 'json');
+                return false;
+            }
+
+            let result = await this.model.newUser(body);
+
+            if (!result.status && result.errCode == 1062) {
+                await this.setFields({
+                    status: false,
+                    error: 'This email is not available'
+                });
+                this.response(res, 'json');
+                return false;
+            }
+            if (!result.status) return false;
+
+            await this.setFields({
+                status: true
+            });
             this.response(res, 'json');
         }
         catch (err) {

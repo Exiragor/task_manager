@@ -55,5 +55,6 @@ router.get(
 );
 
 router.post('/auth/login/', (req, res) => controllers.auth.tryAuth(req, res));
+router.post('/auth/registration/', (req, res) => controllers.auth.registration(req.body, res));
 
 export default router;

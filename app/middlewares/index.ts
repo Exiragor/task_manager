@@ -1,5 +1,5 @@
-import * as crossDomain from './crossDomain';
+import { allowCrossDomain} from './crossDomain';
+import {registration} from './registration';
 
-export default {
-    allowCrossDomain: crossDomain.allowCrossDomain
-}
+export let crossDomainMiddleware = allowCrossDomain;
+export let registrationMiddleware = registration;

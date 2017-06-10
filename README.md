@@ -1,7 +1,10 @@
 # README #
 
-### Start server ###
+# Start server #
 
-*for develop: npm run dev
-*for production: npm start
-*default url: http://localhost:4800
+### For develop ###
+*npm run dev
+### For production ###
+*npm start
+### default url ### 
+*http://localhost:4800

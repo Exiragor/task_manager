@@ -3,8 +3,8 @@
 # Start server #
 
 ### For develop ###
-*npm run dev
+npm run dev
 ### For production ###
-*npm start
+npm start
 ### default url ### 
-*http://localhost:4800
+http://localhost:4800

@@ -1,6 +1,7 @@
 import BaseController from './BaseController';
 import Auth from '../models/Auth';
-import { registrationMiddleware } from '../middlewares'
+import { registrationMiddleware } from '../middlewares';
+import * as hash from 'password-hash';
 
 class AuthController extends BaseController {
 
@@ -13,7 +14,7 @@ class AuthController extends BaseController {
 
     public async tryAuth(req, res) {
         try {
-            let user = await this.model.authUser(req.body.email, req.body.password);
+            let user = await this.model.authUser(req.body.email, req.body.password, hash);
             if (user)
                 await this.setFields({
                     id: user.id,
@@ -49,7 +50,7 @@ class AuthController extends BaseController {
                 this.response(res, 'json');
                 return false;
             }
-
+            body.password = hash.generate(body.password);
             let result = await this.model.newUser(body);
 
             if (!result.status && result.errCode == 1062) {

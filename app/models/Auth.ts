@@ -18,14 +18,15 @@ class Auth {
         return token;
     }
 
-    public async authUser(email: string, pass: string): Promise<false|{id: number, token: string}> {
+    public async authUser(email: string, pass: string, hash: any): Promise<false|{id: number, token: string}> {
         try {
             let res = await this.db.tool(this.tableName).where({
-                email: email,
-                password: pass
-            }).select('id', 'token', 'name');
+                email: email
+            }).select('id', 'token', 'name', 'password');
 
             if (res[0] == null)
+                return false;
+            if (!hash.verify(pass, res[0].password))
                 return false;
             let user = res[0];
 

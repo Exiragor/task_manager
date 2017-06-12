@@ -1,6 +1,8 @@
 import app from './app';
+import conf from './configs/config.dev';
 
-const port = normalizePort('4800');
+
+const port = normalizePort(conf.port || 3000);
 
 app.listen(port, function () {
     console.log('http://localhost:' + port);

@@ -1,5 +1,5 @@
 import * as knex from 'knex';
-import conf from '../configs/config.dev';
+import * as conf from 'config';
 
 class Database {
     public tool: ITool;
@@ -12,10 +12,10 @@ class Database {
         this.tool = knex({
             client: 'mysql',
             connection: {
-                host: conf.db.hostname,
-                user: conf.db.username,
-                password: conf.db.password,
-                database: conf.db.name
+                host: conf.get('db.hostname'),
+                user: conf.get('db.username'),
+                password: conf.get('db.password'),
+                database: conf.get('db.name')
             }
         });
     }

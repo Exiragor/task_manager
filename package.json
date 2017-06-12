@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node ./build/server.js",
     "dev": "nodemon ./build/server.js",
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Alexander",
@@ -13,6 +14,7 @@
   "dependencies": {
     "@types/node": "^7.0.29",
     "body-parser": "^1.17.2",
+    "config": "^1.26.1",
     "express": "^4.15.3",
     "jsonwebtoken": "^7.4.1",
     "knex": "^0.13.0",

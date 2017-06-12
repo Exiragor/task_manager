@@ -1,8 +1,8 @@
 import app from './app';
-import conf from './configs/config.dev';
+import * as conf from 'config';
 
 
-const port = normalizePort(conf.port || 3000);
+const port = normalizePort(conf.get('port') || 3000);
 
 app.listen(port, function () {
     console.log('http://localhost:' + port);

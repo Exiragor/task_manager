@@ -5,6 +5,7 @@
     "password": "root",
     "name": "task_manager"
   },
-  "port": 4800
+  "port": 4800,
+  "secretKey": "secretKey"
 }
 

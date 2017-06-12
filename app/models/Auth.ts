@@ -1,3 +1,7 @@
+import * as hash from 'password-hash';
+import * as jwt from 'jsonwebtoken';
+import * as conf from 'config';
+
 class Auth {
     private dictionary: [string];
     private db: any;
@@ -8,36 +12,30 @@ class Auth {
         this.createSymbols();
     }
 
-    createUserToken(name) {
-        let token = '';
-        for (let i = 0; i < 60; i++) {
-            let random = Math.floor(Math.random() * (62 - 1)) + 1;
-            token += this.dictionary[random];
-        }
-        token += name.split("").reverse().join("");
-        return token;
-    }
-
-    public async authUser(email: string, pass: string, hash: any): Promise<false|{id: number, token: string}> {
+    public async authUser(email: string, pass: string): Promise<false|{id: number, token: string}> {
         try {
             let res = await this.db.tool(this.tableName).where({
                 email: email
-            }).select('id', 'token', 'name', 'password');
+            }).select('id', 'name', 'password');
 
             if (res[0] == null)
                 return false;
             if (!hash.verify(pass, res[0].password))
                 return false;
             let user = res[0];
+            let token = '';
 
-            let token = user.token;
             if (user.token == null) {
-                token = this.createUserToken(user.name);
-                await this.db.tool(this.tableName)
-                    .where('id', user.id)
-                    .update({
-                        token: token
-                    });
+
+                token = jwt.sign(user, conf.get('secretKey'), {
+                    expiresIn: 1440
+                });
+
+                // await this.db.tool(this.tableName)
+                //     .where('id', user.id)
+                //     .update({
+                //         token: token
+                //     });
             }
 
             return {

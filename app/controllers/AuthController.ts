@@ -14,7 +14,7 @@ class AuthController extends BaseController {
 
     public async tryAuth(req, res) {
         try {
-            let user = await this.model.authUser(req.body.email, req.body.password, hash);
+            let user = await this.model.authUser(req.body.email, req.body.password);
             if (user)
                 await this.setFields({
                     id: user.id,

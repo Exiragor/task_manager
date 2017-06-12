@@ -11,13 +11,15 @@ class UserController extends BaseController {
 
     public async getName(req, res) {
         try {
-            if (!await this.checkToken(req.body.id, req.body.token)) {
+            if (req.body.id != req.tokenInfo.id) {
                 await this.setFields({
                     status: false,
-                    error: 'Access denied!'
+                    message: 'access denied!'
                 });
                 this.response(res, 'json');
+                return false;
             }
+
             let name = await this.model.getName(req.body.id);
 
             await this.setFields({

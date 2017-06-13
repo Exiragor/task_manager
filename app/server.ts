@@ -45,3 +45,5 @@ function onError(error) {
 
     // handle specific listen errors with friendly messages
 }
+
+module.exports = app;

@@ -6,6 +6,7 @@ export default async function createTasks2users() {
             table.integer('task_id');
             table.integer('user_id');
             table.integer('group_id');
+            table.string('type', 50);
             table.primary(['task_id', 'user_id']);
         });
     }

@@ -9,9 +9,9 @@ class UserController extends BaseController {
         this.model = new UserModel(this.db);
     }
 
-    public async getName(req, res) {
+    public async getInfo(req, res) {
         try {
-            if (req.body.id != req.tokenInfo.id) {
+            if (req.params.id != req.tokenInfo.id) {
                 await this.setFields({
                     status: false,
                     message: 'access denied!'
@@ -20,11 +20,11 @@ class UserController extends BaseController {
                 return false;
             }
 
-            let name = await this.model.getName(req.body.id);
+            let user = await this.model.getInfo(req.params.id);
 
             await this.setFields({
                 status: true,
-                name
+                user
             });
             this.response(res, 'json');
         }

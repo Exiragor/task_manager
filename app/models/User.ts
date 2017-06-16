@@ -5,12 +5,12 @@ class User {
         this.db = db;
     }
 
-    public async getName(id): Promise<string> {
+    public async getInfo(id): Promise<string> {
         try {
             let result =  await this.db.tool('users')
                 .where('id', id)
-                .select('name');
-            return result[0].name;
+                .select('id', 'name', 'last_name', 'email', 'phone', 'created_at', 'updated_at');
+            return result[0];
         }
         catch (err) {
             console.log(err);

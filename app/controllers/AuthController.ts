@@ -17,9 +17,10 @@ class AuthController extends BaseController {
             let user = await this.model.authUser(req.body.email, req.body.password);
             if (user)
                 await this.setFields({
+                    status: true,
                     id: user.id,
                     token: user.token,
-                    status: true
+                    refreshToken: user.refreshToken
                 });
             else
                 await this.setFields({
@@ -67,6 +68,30 @@ class AuthController extends BaseController {
                 status: true
             });
             this.response(res, 'json');
+        }
+        catch (err) {
+            console.log(err);
+            throw err;
+        }
+    }
+
+    public async updateTokens(body, res) {
+        try {
+            let tokens = await this.model.updateUserTokens(body.id, body.refreshToken);
+            if (!tokens) {
+                await this.setFields({
+                    status: false,
+                    message: 'invalid request or this account not available'
+                });
+                this.response(res, 'json');
+            } else {
+                await this.setFields({
+                    status: true,
+                    token: tokens.token,
+                    refreshToken: tokens.refreshToken
+                });
+                this.response(res, 'json');
+            }
         }
         catch (err) {
             console.log(err);

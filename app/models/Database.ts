@@ -27,9 +27,10 @@ let db = new Database();
 export default db;
 
 interface ITool {
-    (table: string): {
-        where: (obj?: any, field?: string, condition?: string, value?: string|number) => {
-            update: any
+    (table?: string): {
+        where?: (obj?: any, field?: string, condition?: string, value?: string|number) => {
+            update?: any,
+            select?: any
         },
     },
     schema?: {

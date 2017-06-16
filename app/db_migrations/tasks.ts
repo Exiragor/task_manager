@@ -7,6 +7,7 @@ export default async function createTasks() {
             table.string('name', 200);
             table.text('description');
             table.dateTime('deadline');
+            table.string('status', 50);
             table.timestamps();
         });
     }

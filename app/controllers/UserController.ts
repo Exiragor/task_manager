@@ -2,7 +2,6 @@ import BaseController from './BaseController';
 import UserModel from '../models/User';
 
 class UserController extends BaseController {
-    private model: any;
 
     constructor() {
         super();
@@ -11,14 +10,8 @@ class UserController extends BaseController {
 
     public async getInfo(req, res) {
         try {
-            if (req.params.id != req.tokenInfo.id) {
-                await this.setFields({
-                    status: false,
-                    message: 'access denied!'
-                });
-                this.response(res, 'json');
+            if (!await this.checkParamsId(req.params.id, req.tokenInfo.id, res))
                 return false;
-            }
 
             let user = await this.model.getInfo(req.params.id);
 

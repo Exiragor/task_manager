@@ -5,8 +5,6 @@ import * as hash from 'password-hash';
 
 class AuthController extends BaseController {
 
-    private model: any;
-
     constructor() {
         super();
         this.model = new Auth(this.db);

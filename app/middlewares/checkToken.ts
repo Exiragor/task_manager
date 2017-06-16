@@ -18,10 +18,10 @@ export let checkToken = function(req, res, next) {
                 req.tokenInfo = decoded;
                 let result = await db.tool('users').where({
                     id: req.tokenInfo.id
-                }).select('name', 'email');
+                }).select('secretKey');
 
                 if (result[0]) {
-                    if (req.tokenInfo.secretKey == (result[0].name + result[0].email))
+                    if (req.tokenInfo.secretKey == result[0].secretKey)
                         next();
                     else
                         res.json({

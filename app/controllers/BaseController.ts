@@ -3,6 +3,7 @@ import db from "../models/Database";
 class BaseController {
 
     protected db:any = db;
+    protected model: any;
     protected fields: IFields = {
         str: null,
         obj: null
@@ -46,8 +47,16 @@ class BaseController {
         }
     }
 
-    postRequest() {
-
+    protected async checkParamsId(reqId, tokenId, res): Promise<false|true> {
+        if (reqId != tokenId) {
+            await this.setFields({
+                status: false,
+                message: 'access denied!'
+            });
+            this.response(res, 'json');
+            return false;
+        }
+        return true;
     }
 }
 

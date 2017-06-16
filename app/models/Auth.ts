@@ -23,18 +23,19 @@ class Auth {
             if (!hash.verify(pass, res[0].password))
                 return false;
             let user = res[0];
+            let date = new Date().toString();
 
             let infoUser = {
                 id: user.id,
                 name: user.name,
                 role: 'user',
-                secretKey: user.name + email
+                secretKey: user.name + email + date
             };
 
             let token = jwt.sign(infoUser, conf.get('secretKey'), {
                 expiresIn: 174800
             });
-            let date = new Date().toString();
+
             let refreshToken = jwt.sign({
                 id: user.id,
                 create_at: date

@@ -19,6 +19,9 @@ authRouter.post('/update_tokens/', (req, res) => controllers.auth.updateTokens(r
 let apiRoutes = Router();
 apiRoutes.use(checkTokenMiddleware);
 apiRoutes.get('/user/:id/', (req, res) => controllers.user.getInfo(req, res));
+apiRoutes.get('/user/:id/tasks/');
+
+
 
 router.use('/auth', authRouter);
 router.use('/api', apiRoutes);

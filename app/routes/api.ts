@@ -19,8 +19,10 @@ authRouter.post('/update_tokens/', (req, res) => controllers.auth.updateTokens(r
 let apiRoutes = Router();
 apiRoutes.use(checkTokenMiddleware);
 apiRoutes.get('/user/:id/', (req, res) => controllers.user.getInfo(req, res));
-apiRoutes.get('/user/:id/tasks/');
-
+apiRoutes.get('/user/:id/tasks/', (req, res) => controllers.task.userTasks(req, res));
+apiRoutes.post('/task/', (req, res) => controllers.task.addTask(req, res));
+apiRoutes.put('/task/:id/', (req, res) => controllers.task.updateTask(req, res));
+apiRoutes.delete('/task/:id/', (req, res) => controllers.task.deleteTask(req, res));
 
 
 router.use('/auth', authRouter);

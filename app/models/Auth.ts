@@ -25,11 +25,12 @@ class Auth {
             let user = res[0];
             let date = new Date().toString();
 
+            let secretKey = user.name + email + date;
             let infoUser = {
                 id: user.id,
                 name: user.name,
                 role: 'user',
-                secretKey: user.name + email + date
+                secretKey
             };
 
             let token = jwt.sign(infoUser, conf.get('secretKey'), {
@@ -41,6 +42,7 @@ class Auth {
                 create_at: date
             },conf.get('secretKey'), {expiresIn: 999999999999});
             await this.db.tool(this.tableName).update({
+                secretKey,
                 last_refresh: date
             }).where({ id: user.id});
 

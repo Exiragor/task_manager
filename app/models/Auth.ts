@@ -12,7 +12,7 @@ class Auth {
         this.createSymbols();
     }
 
-    public async authUser(email: string, pass: string): Promise<false|{id: number, token: string, refreshToken: string}> {
+    public async authUser(email: string, pass: string): Promise<false|{id: number, token: string, refreshToken: string, key: string}> {
         try {
             let res = await this.db.tool(this.tableName).where({
                 email: email
@@ -39,17 +39,18 @@ class Auth {
 
             let refreshToken = jwt.sign({
                 id: user.id,
-                create_at: date
+                create_at: date,
+                secretKey
             },conf.get('secretKey'), {expiresIn: 999999999999});
             await this.db.tool(this.tableName).update({
-                secretKey,
-                last_refresh: date
+                secretKey
             }).where({ id: user.id});
 
             return {
                 id: user.id,
                 token: token,
-                refreshToken: refreshToken
+                refreshToken: refreshToken,
+                key: date
             }
         }
         catch (err) {
@@ -99,31 +100,41 @@ class Auth {
         this.dictionary = tempArr;
     }
 
-    public async updateUserTokens(id: number, oldRefreshToken: string): Promise<false|{token: string, refreshToken: string}> {
+    public async updateUserTokens(id: number, oldRefreshToken: string, key: string): Promise<false|{token: string, refreshToken: string, key: string}> {
         let info: any = {};
         let user:any = {};
 
-        await jwt.verify(oldRefreshToken, conf.get('secretKey'), function (err, decoded) {
-            info = decoded;
-        });
+        async function decodeToken(info) {
+            return new Promise((resolve, reject) => {
+                jwt.verify(oldRefreshToken, conf.get('secretKey'), function (err, decoded) {
+                    if (err) reject(err);
+                    resolve(decoded);
+                });
+            });
+        }
 
+        info = await decodeToken(info);
         if (info.id != id)
             return false;
         let result = await this.db.tool(this.tableName)
             .where({id: id})
-            .select('name', 'email', 'last_refresh');
+            .select('name', 'email', 'secretKey');
+
         if (!result[0])
             return false;
         else
             user = result[0];
-        if (user.last_refresh != info.create_at)
+        if (info.create_at != key)
+            return false;
+
+        if (user.secretKey != info.secretKey)
             return false;
 
         let infoUser = {
             id: id,
             name: user.name,
             role: 'user',
-            secretKey: user.name + user.email
+            secretKey: user.secretKey
         };
 
         let token = jwt.sign(infoUser, conf.get('secretKey'), {
@@ -132,15 +143,18 @@ class Auth {
         let date = new Date().toString();
         let refreshToken = jwt.sign({
             id: id,
-            create_at: date
+            create_at: date,
+            secretKey: user.secretKey
         },conf.get('secretKey'), {expiresIn: 999999999999});
-        await this.db.tool(this.tableName).update({
-            last_refresh: date
-        }).where({ id: id});
+
+        // await this.db.tool(this.tableName).update({
+        //     last_refresh: date
+        // }).where({ id: id});
 
         return {
             token: token,
-            refreshToken: refreshToken
+            refreshToken: refreshToken,
+            key: date
         }
     }
 }

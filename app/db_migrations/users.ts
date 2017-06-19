@@ -10,7 +10,6 @@ export default async function createUsers() {
             table.string('phone', 100);
             table.string('password', 150);
             table.string('secretKey', 100);
-            table.string('last_refresh', 100);
             table.timestamps();
         });
     }

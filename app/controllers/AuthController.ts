@@ -18,7 +18,8 @@ class AuthController extends BaseController {
                     status: true,
                     id: user.id,
                     token: user.token,
-                    refreshToken: user.refreshToken
+                    refreshToken: user.refreshToken,
+                    key: user.key
                 });
             else
                 await this.setFields({
@@ -75,7 +76,7 @@ class AuthController extends BaseController {
 
     public async updateTokens(body, res) {
         try {
-            let tokens = await this.model.updateUserTokens(body.id, body.refreshToken);
+            let tokens = await this.model.updateUserTokens(body.id, body.refreshToken, body.key);
             if (!tokens) {
                 await this.setFields({
                     status: false,
@@ -86,7 +87,8 @@ class AuthController extends BaseController {
                 await this.setFields({
                     status: true,
                     token: tokens.token,
-                    refreshToken: tokens.refreshToken
+                    refreshToken: tokens.refreshToken,
+                    key: tokens.key
                 });
                 this.response(res, 'json');
             }

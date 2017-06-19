@@ -1,0 +1,10 @@
+{
+  "db" : {
+    "hostname" : "localhost",
+    "username": "root",
+    "password": "root",
+    "name": "task_manager_test"
+  },
+  "port": 4800,
+  "secretKey": "secretKey"
+}

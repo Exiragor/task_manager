@@ -88,3 +88,15 @@ with fields:
 token, id, name, description, status, date.
 
 name - name of task, desc - desc of task, date - deadline, status - status of task(example: work)
+
+### Update task ###
+Send put request to main/api/task/:id/
+
+with fields: id, token and fields to update(for example: name, date)
+
+success response: {status: true}
+
+### Delete task ###
+Send delete request to main/api/task/:id/
+
+with fields: id, token.

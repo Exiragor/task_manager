@@ -18,8 +18,7 @@ http://api.exiragor.info  (= main)
 Send post request to main/auth/regisration/
 
 with fields:
-   email*, password*, name*, last_name*, phone
-  *-required
+   email, password, name, last_name -this fields is required, phone
 
 success response:
 {

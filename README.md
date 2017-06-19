@@ -8,3 +8,83 @@ npm run dev
 npm start
 ### default url ###
 http://localhost:4800
+
+# API DOCS #
+
+### url ###
+http://api.exiragor.info  (= main)
+
+### Registration ###
+Send post request to main/auth/regisration/
+
+with fields:
+   email*, password*, name*, last_name*, phone
+  *-required
+
+success response:
+{
+  status: true
+}
+
+### Login ###
+Send post request to main/auth/login/
+
+with fields: email, password.
+
+success response:
+{
+  status: true,
+  id: temp_id,
+  token: temp_token,
+  refreshToken: temp_token,
+  key: temp_key
+}
+
+id - your user id,
+token - for user requests to server,
+refreshToken - for update your token,
+key - it's create_at of refreshToken, need to update token.
+
+### Update tokens ###
+Send post request to main/auth/update_tokens/
+
+with fields:
+id, refreshToken, key
+
+success response:
+{
+  status: true,
+  token: new_token,
+  refreshToken: new_token,
+  key: new_key
+}
+
+### Get User info ###
+Send get request to main/api/user/:your_id/
+
+with params:
+token
+
+Example: http://api.exiragor.info/api/user/1/?token=eyJhbGciOiJ
+
+success response: 
+{
+  status: true,
+  user: object(with info)
+}
+
+### Get list of user's tasks ###
+Send get request to main/api/user/:id/tasks/
+
+with params:
+token
+
+success response: array of objects. If list is empty, then server will return one object with fields equal null.
+
+### Add new task ###
+Send post request to main/api/task/
+
+with fields:
+token, id, name, description, status, date.
+
+name - name of task, desc - desc of task, date - deadline, status - status of task(example: work)

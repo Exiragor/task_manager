@@ -11,6 +11,10 @@ router.get(
     res)
 );
 
+router.get('/', (req, res) => {
+    res.send('Hello');
+});
+
 let authRouter = Router();
 authRouter.post('/login/', (req, res) => controllers.auth.tryAuth(req, res));
 authRouter.post('/registration/', (req, res) => controllers.auth.registration(req.body, res));

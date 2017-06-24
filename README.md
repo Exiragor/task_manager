@@ -86,7 +86,7 @@ Send post request to main/api/task/
 with fields:
 token, id, name, description, status, date.
 
-name - name of task, desc - desc of task, date - deadline, status - status of task(example: work)
+id - id of user, name and desc of task, date - deadline, status - status of task(example: work)
 
 ### Update task ###
 Send put request to main/api/task/:id/

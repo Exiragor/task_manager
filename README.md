@@ -15,7 +15,7 @@ http://localhost:4800
 http://api.exiragor.info  (= main)
 
 ### Registration ###
-Send post request to main/auth/regisration/
+Send post request to main/auth/registration/
 
 with fields:
    email, password, name, last_name -this fields is required, phone
